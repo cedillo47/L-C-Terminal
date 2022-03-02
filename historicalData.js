@@ -1,30 +1,50 @@
 window.addEventListener('DOMContentLoaded', () => {
     // console.log("hello")
     const ctx = document.getElementById('myChart').getContext('2d');
-
-    const ticker = "GME"
-
+    const form = document.getElementById("tickerForm");
+    const tickervalue = document.getElementById("tickerID")
+    const historicalDiv = document.getElementById("historicalDiv");
+    const fiftyTwoWeekHli = document.getElementById("fiftyTwoWeekHigh")
+    const fiftyTwoWeekli = document.getElementById("fiftyTwoWeekLow")
+    const avgVolli = document.getElementById("avgVolume")
+    const openli = document.getElementById("openPrice")
+    const precloli = document.getElementById("preClose")
+    const rangeli = document.getElementById("tradingRange")
+    const percentChangeli = document.getElementById("percentChange")
+    // console.log(historicalDiv)
+    // console.log(tickervalue.value)
+    let tickerval;
     const LeosapiKeyforPolygon = "KcvZeL7kY8MCWPBjov6DbC4adwjjuWf2"
     const poloyBaseURL = "https://api.polygon.io/"
-
     const LeosapiKeyforTweleveData = "4fa2fb4f065046a7a1904ed616c5ec53";
     const tweleveDataBaseURL = `https://api.twelvedata.com`
-
     const LEOsapiKryforAlphaVantage = `MDALAPN8VGQ1J9CY`
     const baseURLForAlphvantage = 'https://www.alphavantage.co/'
-
-// this all the functions for get graph data 
-    const graphData = async () => {
+// this all the functions for get graph data
+//this is where all API are called when the form is interacted with
+form.addEventListener("submit", async (e)=> {
+    e.preventDefault();
+    tickerval = tickervalue.value;
+    const historyData = await fetchingPolydata();
+    const dataobj = await graphData();
+    fiftyTwoWeekHli.innerText = `The 52 week high of ${tickerval} is ${historyData.fiftyTwoWeekHigh}`
+    fiftyTwoWeekli.innerText = `The 52 week low of ${tickerval} is ${historyData.fiftyTwoWeekLow}`
+    avgVolli.innerText = `The avrage volume of ${tickerval} is ${historyData.avgVolume}`
+    openli.innerText = `The opening price of ${tickerval} is ${historyData.openPrice}`
+    precloli.innerText = `${tickerval} previous close was ${historyData.preClose}`
+    rangeli.innerText = `the current trading range of ${tickerval} is ${historyData.tradingRange}`
+    percentChangeli.innerText = `The percent change previous days open to todays open is ${historyData.percentChange}`
+    getGraph(dataobj);
+})
+    async function graphData(){
         let dateData = [];
         let priceData = [];
-        const response = await fetch(`${baseURLForAlphvantage}query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=${LEOsapiKryforAlphaVantage}&datatype=csv`)
+        const response = await fetch(`${baseURLForAlphvantage}query?function=TIME_SERIES_DAILY&symbol=${tickerval}&apikey=${LEOsapiKryforAlphaVantage}&datatype=csv`)
         const data = await response.text()
-
         const csvData = Papa.parse(data, {
             header: true,
             skipEmptyLines: true
         })
-
         for (let i = 0; i < csvData.data.length; i++) {
             priceData.push(csvData.data[i].open)
         }
@@ -33,15 +53,15 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         return { priceData, dateData }
     }
-// this function will call graphData to then create a graph that will be shown on the DOM 
-    const getGraph = async () => {
-        const data = await graphData()
+// this function will call graphData to then create a graph that will be shown on the DOM
+    async function getGraph(input) {
+        const data = input
         const myChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: [...data.dateData],
                 datasets: [{
-                    label: `${ticker}`,
+                    label: `${tickervalue.value}`,
                     data: [...data.priceData],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)'
@@ -61,13 +81,9 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
-// getGraph() // this will call a graph to the DOM
-
-    const historicalDataURLFrom12Data = `${tweleveDataBaseURL}/quote?symbol=${ticker}&apikey=${LeosapiKeyforTweleveData}`
-
 // this fucntion will retreve all of the historical data we need ATM
-    const fetchingPolydata = async () => {
+    async function fetchingPolydata(){
+        const historicalDataURLFrom12Data = `${tweleveDataBaseURL}/quote?symbol=${tickerval}&apikey=${LeosapiKeyforTweleveData}`
         const data = await fetch(`${historicalDataURLFrom12Data}`)
         const dataobj = await data.json()
         const fiftyTwoWeekHigh = dataobj.fifty_two_week.high
@@ -77,8 +93,6 @@ window.addEventListener('DOMContentLoaded', () => {
         const preClose = dataobj.previous_close
         const tradingRange = dataobj.fifty_two_week.range
         const percentChange = dataobj.percent_change
-
         return { fiftyTwoWeekHigh, fiftyTwoWeekLow, avgVolume, openPrice, preClose, tradingRange, percentChange }
-    };  
-    
+    };
 })
