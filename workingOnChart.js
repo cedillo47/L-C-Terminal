@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-    console.log("hello")
+    // console.log("hello")
     
     
     const LeosapiKeyforPolygon = "KcvZeL7kY8MCWPBjov6DbC4adwjjuWf2"
@@ -23,79 +23,49 @@ window.addEventListener('DOMContentLoaded', () => {
         const response = await fetch(`${baseURLForAlphvantage}query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=${LEOsapiKryforAlphaVantage}&datatype=csv`)
         const data = await response.text()
 
-        // how to do this without a liberaiy
-        
-        const table = data.split('\n').slice(1);
-        table.forEach(row => {
-            const col = row.trim().split(",");
-            const date = col[0];
-            const price = col[1];
-            // console.log(row)
-            // const price = row[]
-            console.log(date,price)
-            
+        const csvData = Papa.parse(data,{
+            header: true,
+            skipEmptyLines: true
         })
 
-        console.log("hello")
-        // console.log(rows)
-        
+        for(let i = 0; i < csvData.data.length; i++){
+            priceData.push(csvData.data[i].open)
+        }
+        for(let i = csvData.data.length - 1; 0 <= i; i--){
+            dateData.push(csvData.data[i].timestamp)
+        }
+        return {priceData, dateData}
+    }
 
-
-
-
-
-
-
-        // const csvData = Papa.parse(data,{
-            // header: true,
-            // skipEmptyLines: true
-        // })
-
-
-        // for(let i = 0; i < csvData.data.length; i++){
-        //     dateData.push(csvData.data[i].timestamp)
-        //     priceData.push(csvData.data[i].open)
-        // }
-        // console.log("this is the date:", dateData);
-        // console.log("this is the price:", priceData);
-    //     const myChart = new Chart(ctx, {
-    //     type: 'bar',
-    //     data: {
-    //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-    //         datasets: [{
-    //             label: '# of Votes',
-    //             data: [12, 19, 3, 5, 2, 3],
-    //             backgroundColor: [
-    //                 'rgba(255, 99, 132, 0.2)',
-    //                 'rgba(54, 162, 235, 0.2)',
-    //                 'rgba(255, 206, 86, 0.2)',
-    //                 'rgba(75, 192, 192, 0.2)',
-    //                 'rgba(153, 102, 255, 0.2)',
-    //                 'rgba(255, 159, 64, 0.2)'
-    //             ],
-    //             borderColor: [
-    //                 'rgba(255, 99, 132, 1)',
-    //                 'rgba(54, 162, 235, 1)',
-    //                 'rgba(255, 206, 86, 1)',
-    //                 'rgba(75, 192, 192, 1)',
-    //                 'rgba(153, 102, 255, 1)',
-    //                 'rgba(255, 159, 64, 1)'
-    //             ],
-    //             borderWidth: 1
-    //         }]
-    //     },
-    //     options: {
-    //         scales: {
-    //             y: {
-    //                 beginAtZero: true
-    //             }
-    //         }
-    //     }
-    // });
-
+    const getGraph = async () => {
+        const data = await graphData()
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+            labels: [...data.dateData],
+            datasets: [{
+                label: `${ticker}`,
+                data: [...data.priceData],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
 }
-    // timestamp: '2022-03-01', open: '164.6950'
-    graphData()
+
+
 
 
 
@@ -131,4 +101,4 @@ window.addEventListener('DOMContentLoaded', () => {
     // fetchingPolydataNews()
     
     // fetchingPolydata().then(data => console.log(data));
-    })
+})
