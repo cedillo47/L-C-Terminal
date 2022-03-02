@@ -40,7 +40,7 @@ form.addEventListener("submit", async (e)=> {
 
 
 
-    // getGraph(dataobj);
+    getGraph(dataobj);
 })
 
     async function graphData(){
@@ -93,7 +93,7 @@ form.addEventListener("submit", async (e)=> {
 // getGraph() // this will call a graph to the DOM
 
 
-    const historicalDataURLFrom12Data = `${tweleveDataBaseURL}/quote?symbol=${tickervalue.value}&apikey=${LeosapiKeyforTweleveData}`
+    const historicalDataURLFrom12Data = `${tweleveDataBaseURL}/quote?symbol=${"AMZN"}&apikey=${LeosapiKeyforTweleveData}`
 
 // this fucntion will retreve all of the historical data we need ATM
     const fetchingPolydata = async () => {
@@ -111,6 +111,6 @@ form.addEventListener("submit", async (e)=> {
 
         // return { fiftyTwoWeekHigh, fiftyTwoWeekLow, avgVolume, openPrice, preClose, tradingRange, percentChange }
     };  
-    // fetchingPolydata(); 
+    fetchingPolydata();  
     
 })
