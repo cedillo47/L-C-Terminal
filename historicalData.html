@@ -20,13 +20,15 @@
         </style>
     </head>
     <body>
-        <form>
+        <form id="tickerForm">
             <label for="tickerID">ticker search:</label>
             <input type="text" id="tickerID" placeholder="enter ticker to begin. try(FB)">
-            <!-- <button></button> -->
+            <button id='submit'>search</button>
         </form>
         <div class="chartbox">
         <canvas id="myChart"></canvas>
+        </div>
+        <div id="historicalDiv">
         </div>
     Content goes here.
 
