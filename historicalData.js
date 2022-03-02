@@ -5,14 +5,23 @@ window.addEventListener('DOMContentLoaded', () => {
     const tickervalue = document.getElementById("tickerID")
 
     const historicalDiv = document.getElementById("historicalDiv");
+
+
+    const fiftyTwoWeekHli = document.getElementById("fiftyTwoWeekHigh")
+    const fiftyTwoWeekli = document.getElementById("fiftyTwoWeekLow")
+    const avgVolli = document.getElementById("avgVolume")
+    const openli = document.getElementById("openPrice")
+    const precloli = document.getElementById("preClose")
+    const rangeli = document.getElementById("tradingRange")
+    const percentChangeli = document.getElementById("percentChange")
+
+    
+
+
     // console.log(historicalDiv)
     
     // console.log(tickervalue.value)
-
-
-    // const ticker = tickervalue.value
-    // console.log(ticker)
-    console.log("hello????")
+    let tickerval; 
 
     const LeosapiKeyforPolygon = "KcvZeL7kY8MCWPBjov6DbC4adwjjuWf2"
     const poloyBaseURL = "https://api.polygon.io/"
@@ -27,16 +36,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
 form.addEventListener("submit", async (e)=> {
     e.preventDefault();
-    // let haventRan = true
-    // console.log(tickervalue.value)
-//   let ticker = tickervalue.value;
-  const dataobj = await graphData();
-//   const historicalDATA = await fetchingPolydata()
+    tickerval = tickervalue.value;
+    // console.log(tickerval)
 
+    const historyData = await fetchingPolydata();
+    const dataobj = await graphData();
+
+    
+    fiftyTwoWeekHli.innerText = `The 52 week high of ${tickerval} is ${historyData.fiftyTwoWeekHigh}` 
+    fiftyTwoWeekli.innerText = `The 52 week low of ${tickerval} is ${historyData.fiftyTwoWeekLow}` 
+    avgVolli.innerText = `The avrage volume of ${tickerval} is ${historyData.avgVolume}`
+    openli.innerText = `The opening price of ${tickerval} is ${historyData.openPrice}` 
+    precloli.innerText = `${tickerval} previous close was ${historyData.preClose}` 
+    rangeli.innerText = `the current trading range of ${tickerval} is ${historyData.tradingRange}` 
+    percentChangeli.innerText = `The percent change previous days open to todays open is ${historyData.percentChange}` 
+    
 //   console.log(historicalDATA)
-//     historicalDiv.innerHTML= `<ul>
-//     <li></li>
-// </ul>`
 
 
 
@@ -46,7 +61,7 @@ form.addEventListener("submit", async (e)=> {
     async function graphData(){
         let dateData = [];
         let priceData = [];
-        const response = await fetch(`${baseURLForAlphvantage}query?function=TIME_SERIES_DAILY&symbol=${tickervalue.value}&apikey=${LEOsapiKryforAlphaVantage}&datatype=csv`)
+        const response = await fetch(`${baseURLForAlphvantage}query?function=TIME_SERIES_DAILY&symbol=${tickerval}&apikey=${LEOsapiKryforAlphaVantage}&datatype=csv`)
         const data = await response.text()
 
         const csvData = Papa.parse(data, {
@@ -93,24 +108,26 @@ form.addEventListener("submit", async (e)=> {
 // getGraph() // this will call a graph to the DOM
 
 
-    const historicalDataURLFrom12Data = `${tweleveDataBaseURL}/quote?symbol=${"AMZN"}&apikey=${LeosapiKeyforTweleveData}`
-
 // this fucntion will retreve all of the historical data we need ATM
-    const fetchingPolydata = async () => {
+    async function fetchingPolydata(){
+
+        const historicalDataURLFrom12Data = `${tweleveDataBaseURL}/quote?symbol=${tickerval}&apikey=${LeosapiKeyforTweleveData}`
+
         const data = await fetch(`${historicalDataURLFrom12Data}`)
         const dataobj = await data.json()
-        console.log(dataobj)
         // console.log(dataobj)
-        // const fiftyTwoWeekHigh = dataobj.fifty_two_week.high
-        // const fiftyTwoWeekLow = dataobj.fifty_two_week.low
-        // const avgVolume = dataobj.average_volume
-        // const openPrice = dataobj.open
-        // const preClose = dataobj.previous_close
-        // const tradingRange = dataobj.fifty_two_week.range
-        // const percentChange = dataobj.percent_change
+        // console.log(dataobj)
+        const fiftyTwoWeekHigh = dataobj.fifty_two_week.high
+        const fiftyTwoWeekLow = dataobj.fifty_two_week.low 
+        const avgVolume = dataobj.average_volume
+        const openPrice = dataobj.open
+        const preClose = dataobj.previous_close
+        const tradingRange = dataobj.fifty_two_week.range
+        const percentChange = dataobj.percent_change
 
-        // return { fiftyTwoWeekHigh, fiftyTwoWeekLow, avgVolume, openPrice, preClose, tradingRange, percentChange }
+        return { fiftyTwoWeekHigh, fiftyTwoWeekLow, avgVolume, openPrice, preClose, tradingRange, percentChange }
     };  
-    fetchingPolydata();  
+    // console.log(fetchingPolydata()); 
+    // fetchingPolydata().then(data => console.log(data))    
     
 })
