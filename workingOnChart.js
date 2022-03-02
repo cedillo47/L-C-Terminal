@@ -4,7 +4,7 @@ window.addEventListener('DOMContentLoaded', () => {
     
     const LeosapiKeyforPolygon = "KcvZeL7kY8MCWPBjov6DbC4adwjjuWf2"
     const poloyBaseURL = "https://api.polygon.io/"
-    const ticker = "AAPL"
+    const ticker = "GME"
     
     
     
@@ -65,7 +65,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 }
 
-
+// getGraph()
 
 
 
