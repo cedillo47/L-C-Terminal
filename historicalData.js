@@ -6,7 +6,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const historicalDiv = document.getElementById("historicalDiv");
 
-
     const fiftyTwoWeekHli = document.getElementById("fiftyTwoWeekHigh")
     const fiftyTwoWeekli = document.getElementById("fiftyTwoWeekLow")
     const avgVolli = document.getElementById("avgVolume")
@@ -34,15 +33,16 @@ window.addEventListener('DOMContentLoaded', () => {
 
 // this all the functions for get graph data
 
+
+
+//this is where all API are called when the form is interacted with
 form.addEventListener("submit", async (e)=> {
     e.preventDefault();
     tickerval = tickervalue.value;
-    // console.log(tickerval)
 
     const historyData = await fetchingPolydata();
     const dataobj = await graphData();
 
-    
     fiftyTwoWeekHli.innerText = `The 52 week high of ${tickerval} is ${historyData.fiftyTwoWeekHigh}` 
     fiftyTwoWeekli.innerText = `The 52 week low of ${tickerval} is ${historyData.fiftyTwoWeekLow}` 
     avgVolli.innerText = `The avrage volume of ${tickerval} is ${historyData.avgVolume}`
@@ -51,12 +51,16 @@ form.addEventListener("submit", async (e)=> {
     rangeli.innerText = `the current trading range of ${tickerval} is ${historyData.tradingRange}` 
     percentChangeli.innerText = `The percent change previous days open to todays open is ${historyData.percentChange}` 
     
-//   console.log(historicalDATA)
-
-
-
     getGraph(dataobj);
 })
+
+
+
+
+
+
+
+
 
     async function graphData(){
         let dateData = [];
@@ -105,18 +109,13 @@ form.addEventListener("submit", async (e)=> {
             }
         });
     }
-// getGraph() // this will call a graph to the DOM
 
 
 // this fucntion will retreve all of the historical data we need ATM
     async function fetchingPolydata(){
-
         const historicalDataURLFrom12Data = `${tweleveDataBaseURL}/quote?symbol=${tickerval}&apikey=${LeosapiKeyforTweleveData}`
-
         const data = await fetch(`${historicalDataURLFrom12Data}`)
         const dataobj = await data.json()
-        // console.log(dataobj)
-        // console.log(dataobj)
         const fiftyTwoWeekHigh = dataobj.fifty_two_week.high
         const fiftyTwoWeekLow = dataobj.fifty_two_week.low 
         const avgVolume = dataobj.average_volume
@@ -126,8 +125,6 @@ form.addEventListener("submit", async (e)=> {
         const percentChange = dataobj.percent_change
 
         return { fiftyTwoWeekHigh, fiftyTwoWeekLow, avgVolume, openPrice, preClose, tradingRange, percentChange }
-    };  
-    // console.log(fetchingPolydata()); 
-    // fetchingPolydata().then(data => console.log(data))    
+    };    
     
 })
