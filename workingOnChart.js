@@ -16,11 +16,49 @@ window.addEventListener('DOMContentLoaded', () => {
     
 
     const graphData = async () => {
+        let dateData = [];
+        let priceData =[];
         const response = await fetch(`${baseURLForAlphvantage}query?function=TIME_SERIES_DAILY&symbol=${ticker}&apikey=${LEOsapiKryforAlphaVantage}&datatype=csv`)
         const data = await response.text()
-        console.log(data);
-    }
 
+        // how to do this without a liberaiy
+        
+        const table = data.split('\n').slice(1);
+        table.forEach(row => {
+            const col = row.trim().split(",");
+            const date = col[0];
+            const price = col[1];
+            // console.log(row)
+            // const price = row[]
+            console.log(date,price)
+        })
+
+        console.log("hello")
+        // console.log(rows)
+        
+
+
+
+
+
+
+
+        // const csvData = Papa.parse(data,{
+            // header: true,
+            // skipEmptyLines: true
+        // })
+
+
+        // for(let i = 0; i < csvData.data.length; i++){
+        //     dateData.push(csvData.data[i].timestamp)
+        //     priceData.push(csvData.data[i].open)
+        // }
+        // console.log("this is the date:", dateData);
+        // console.log("this is the price:", priceData);
+
+
+    }
+    // timestamp: '2022-03-01', open: '164.6950'
     // graphData()
 
 
