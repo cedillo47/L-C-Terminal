@@ -48,7 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
         return dataobj
     }
      
-    fetchingPolydataNews()
+    // fetchingPolydataNews()
     
      //fetchingPolydata().then(data => console.log(data));
     })
