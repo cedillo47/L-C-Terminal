@@ -1,12 +1,11 @@
 window.addEventListener('DOMContentLoaded', () => {
     // console.log("hello")
+    const ctx = document.getElementById('myChart').getContext('2d');
 
+    const ticker = "GME"
 
     const LeosapiKeyforPolygon = "KcvZeL7kY8MCWPBjov6DbC4adwjjuWf2"
     const poloyBaseURL = "https://api.polygon.io/"
-    const ticker = "GME"
-
-
 
     const LeosapiKeyforTweleveData = "4fa2fb4f065046a7a1904ed616c5ec53";
     const tweleveDataBaseURL = `https://api.twelvedata.com`
@@ -14,8 +13,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const LEOsapiKryforAlphaVantage = `MDALAPN8VGQ1J9CY`
     const baseURLForAlphvantage = 'https://www.alphavantage.co/'
 
-
-    const ctx = document.getElementById('myChart').getContext('2d');
 // this all the functions for get graph data 
     const graphData = async () => {
         let dateData = [];
@@ -65,15 +62,23 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-// getGraph()
+// getGraph() // this will call a graph to the DOM
 
+    const historicalDataURLFrom12Data = `${tweleveDataBaseURL}/quote?symbol=${ticker}&apikey=${LeosapiKeyforTweleveData}`
+
+// this fucntion will retreve all of the historical data we need ATM
+    const fetchingPolydata = async () => {
+        const data = await fetch(`${historicalDataURLFrom12Data}`)
+        const dataobj = await data.json()
+        const fiftyTwoWeekHigh = dataobj.fifty_two_week.high
+        const fiftyTwoWeekLow = dataobj.fifty_two_week.low
+        const avgVolume = dataobj.average_volume
+        const openPrice = dataobj.open
+        const preClose = dataobj.previous_close
+        const tradingRange = dataobj.fifty_two_week.range
+        const percentChange = dataobj.percent_change
+
+        return { fiftyTwoWeekHigh, fiftyTwoWeekLow, avgVolume, openPrice, preClose, tradingRange, percentChange }
+    };  
     
-    
-    // const fetchingPolydata = async () =>{
-    //     const data = await fetch(`${poloyBaseURL}v3/reference/tickers/${ticker}?apiKey=${putyourkeyHEre}`)
-    //     const dataobj = await data.json()
-    //     return dataobj
-    // }  
-    
-    // fetchingPolydata().then(data => console.log(data));
 })
