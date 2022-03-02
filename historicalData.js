@@ -39,7 +39,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const LEOsapiKryforAlphaVantage = `MDALAPN8VGQ1J9CY`
     const baseURLForAlphvantage = 'https://www.alphavantage.co/'
 
-
+    let stockChart = null;
 
 
 
@@ -102,14 +102,28 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     // this function will call graphData to then create a graph that will be shown on the DOM
+
+
+
     async function getGraph(input) {
         const data = input
-        const myChart = new Chart(ctx, {
+
+        if(stockChart){
+            console.log(data)
+            stockChart.data.datasets[0].data = [...data.priceData]
+            stockChart.data.datasets[0].labels = [...data.dateData]
+            stockChart.data.datasets[0].label = tickerval
+            console.log(stockChart.data)
+            stockChart.update();
+            return;
+        } 
+        
+        stockChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: [...data.dateData],
                 datasets: [{
-                    label: `${tickervalue.value}`,
+                    label: `${tickerval}`,
                     data: [...data.priceData],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)'
@@ -128,6 +142,11 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
+
+        console.log("hi")
+
+        // stockChart.update()
+
     }
 
 
@@ -157,6 +176,18 @@ window.addEventListener('DOMContentLoaded', () => {
         const dataobj = await data.json()
         return dataobj
     }
+
+
+/// trying to implaments live stockprice feature; 
+
+    const callingLivePrice = async() => {
+        const response = await fetch(`wss://ws.twelvedata.com/v1/quotes/price?apikey=${LeosapiKeyforTweleveData}`)
+        const data = await response.json()
+        console.log(data)
+    }
+
+    // callingLivePrice();
+
 })
 
 
