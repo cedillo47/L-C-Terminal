@@ -14,6 +14,25 @@ window.addEventListener('DOMContentLoaded', () => {
     const percentChangeli = document.getElementById("percentChange")
 
     const NewsDiv = document.getElementById("newsDiv").children
+
+    const buttonTest = document.getElementById("test") 
+
+    buttonTest.addEventListener("click", ()=>{
+        window.open("https://www.fool.com/investing/2016/11/21/3-things-to-watch-in-the-stock-market-this-week.aspx", "_blank");
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
 // console.log(NewsDiv)
 
 // for(let i = 0; i < NewsDiv.length; i++){
@@ -29,7 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // })
 
 
-    const news1 = document.getElementById('new1')
+    const news1 = document.getElementById('news1')
     const news2 = document.getElementById('news2')
     const news3 = document.getElementById('news3')
     const news4 = document.getElementById('news4')
@@ -75,15 +94,49 @@ window.addEventListener('DOMContentLoaded', () => {
         rangeli.innerText = `the current trading range of ${tickerval} is ${historyData.tradingRange}`
         percentChangeli.innerText = `The percent change previous days open to todays open is ${historyData.percentChange}`
 
-        console.log(newsData)
+        // console.log(newsData)
 
         let counter = 0
+        let newsURL; 
 
         for(node of NewsDiv){
+            node.style.border = "thick solid #0000FF";
             node.innerHTML = `<h6>${newsData.tittle[counter]} by ${newsData.author[counter]}</h6>
             <p>${newsData.description[counter]}</p>`
+
+            // let newsURL = newsData.urlToArtical[counter]
+            // console.log("hello outside")
+            // console.log(newsData.urlToArtical[counter])
+            // node.addEventListener("click", ()=>{
+                // console.log("hello? ")
+                // console.log(newsURL)
+
+                // window.open(`${newsData.urlToArtical[counter]}`, "_blank");
+            // })
             counter++; 
         }
+        /// cant add url link to the div via node will instead use a for loop to target all of the divs inside of the newsdiv 
+        news1.addEventListener("click",)
+
+
+
+
+
+
+// console.log(newsData.author.length)
+        // for(let i = 0; i < newsData.author.length; i++){
+        //     console.log(news1)
+        //     `news${i + 1}`.addEventListener("click", ()=> {
+        //         window.open(`${newsData.urlToArtical[i]}`, "_blank");
+        //     })
+        // }
+
+
+        // for(node of NewsDiv){
+        //     node.addEventListener("click", ()=>{
+        //         window.open(`${newsData.urlToArtical[counter]}`, "_blank");
+        //     })
+        // }
         
         getGraph(dataobj);
     })
@@ -191,7 +244,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const author = [];
         const data = await fetch(`${poloyBaseURL}v2/reference/news?ticker=${tickerval}&order=asc&limit=6&sort=published_utc&apiKey=${shevApiKeyForPolygon}`)
         const dataobj = await data.json()
-        console.log(dataobj)
+        // console.log(dataobj)
         // news1.innerText = `${news.results[0].title},${news.results[0].article_url},${news.results[0].author},${news.results[0].description}`
 
         const dataWeNeed = dataobj.results
