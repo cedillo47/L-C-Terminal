@@ -78,6 +78,7 @@ window.addEventListener('DOMContentLoaded', () => {
         console.log(newsData)
 
         let counter = 0
+
         for(node of NewsDiv){
             node.innerHTML = `<h6>${newsData.tittle[counter]} by ${newsData.author[counter]}</h6>
             <p>${newsData.description[counter]}</p>`
@@ -235,7 +236,7 @@ window.addEventListener('DOMContentLoaded', () => {
             livePriceSocket.send(JSON.stringify({
                 "action": "subscribe",
                 "params": {
-                    "symbols": `${tickerval}`
+                    "symbols": `QQQ`
                 }
             }))
         }
@@ -247,7 +248,7 @@ window.addEventListener('DOMContentLoaded', () => {
             // const jsondata = data.json()
             // console.log(jsondata)
             // console.log(data.json())
-            // console.log(e[""])
+            console.log(e)
             // alert(`[message] Data received from server: ${e.data}`);
             // const data = await e.data.json()
             
