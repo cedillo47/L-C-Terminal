@@ -1,0 +1,47 @@
+
+body{
+    background-color:#ccc;
+}
+h1 {
+    text-align:center; font-size:50px; text-transform:uppercase; color:#222; letter-spacing:1px;
+    font-family:"Playfair Display", serif; font-weight:400;
+  }
+
+
+ h1 span {
+    margin-top: 5px;
+      font-size:15px; color:#444; word-spacing:1px; font-weight:normal; letter-spacing:2px;
+      text-transform: uppercase; font-family:"Raleway", sans-serif; font-weight:500;
+  
+      display: grid;
+      grid-template-columns: 1fr max-content 1fr;
+      grid-template-rows: 27px 0;
+      grid-gap: 20px;
+      align-items: center;
+  }
+  
+   h1 span:after, h1 span:before {
+      content: " ";
+      display: block;
+      border-bottom: 1px solid black;
+      border-top: 1px solid black;
+      height: 5px;
+    background-color:#ccc;
+  }
+  #tickerID{
+      background-color:grey;
+  }
+ .content-sidebar{
+    display: flex;
+    flex: wrap;
+    gap: 1em;
+  }
+.chartbox{
+flex: 1 1 70%;
+}
+#newsDiv{
+flex: 1 1 30%;
+}
+#historicalDiv{
+  
+}
