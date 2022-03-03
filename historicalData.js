@@ -116,27 +116,29 @@ window.addEventListener('DOMContentLoaded', () => {
             counter++; 
         }
         /// cant add url link to the div via node will instead use a for loop to target all of the divs inside of the newsdiv 
-        news1.addEventListener("click",)
 
 
 
+        news1.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[0]}`, "_blank");
+        })
+        news2.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[1]}`, "_blank");
+        })
+        news3.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[2]}`, "_blank");
+        })
+        news4.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[3]}`, "_blank");
+        })
+        news5.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[4]}`, "_blank");
+        })
+        news6.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[5]}`, "_blank");
+        })
 
 
-
-// console.log(newsData.author.length)
-        // for(let i = 0; i < newsData.author.length; i++){
-        //     console.log(news1)
-        //     `news${i + 1}`.addEventListener("click", ()=> {
-        //         window.open(`${newsData.urlToArtical[i]}`, "_blank");
-        //     })
-        // }
-
-
-        // for(node of NewsDiv){
-        //     node.addEventListener("click", ()=>{
-        //         window.open(`${newsData.urlToArtical[counter]}`, "_blank");
-        //     })
-        // }
         
         getGraph(dataobj);
     })
