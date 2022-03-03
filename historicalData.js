@@ -15,6 +15,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const NewsDiv = document.getElementById("newsDiv").children
 
+
+    const newsHeader = document.getElementById("newsHeader")
+
     const news1 = document.getElementById('news1')
     const news2 = document.getElementById('news2')
     const news3 = document.getElementById('news3')
@@ -42,17 +45,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
     let stockChart = null;
 
-
+    const message = document.getElementById("StartMessage")
 
     // this all the functions for get graph data
     //this is where all API are called when the form is interacted with
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        message.style.display = "none";
+
+        
         tickerval = tickervalue.value;
         const historyData = await fetchingPolydata();
         const dataobj = await graphData();
         const newsData = await fetchingPolydataNews();
+
+        console.log(historyData)
         
         fiftyTwoWeekHli.innerText = `The 52 week high of ${tickerval} is ${historyData.fiftyTwoWeekHigh}`
         fiftyTwoWeekli.innerText = `The 52 week low of ${tickerval} is ${historyData.fiftyTwoWeekLow}`
@@ -61,6 +69,8 @@ window.addEventListener('DOMContentLoaded', () => {
         precloli.innerText = `${tickerval} previous close was ${historyData.preClose}`
         rangeli.innerText = `the current trading range of ${tickerval} is ${historyData.tradingRange}`
         percentChangeli.innerText = `The percent change previous days open to todays open is ${historyData.percentChange}`
+
+        newsHeader.innerText = "News"
 
         let counter = 0
 
