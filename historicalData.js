@@ -13,6 +13,21 @@ window.addEventListener('DOMContentLoaded', () => {
     const rangeli = document.getElementById("tradingRange")
     const percentChangeli = document.getElementById("percentChange")
 
+    const NewsDiv = document.getElementById("newsDiv").children
+// console.log(NewsDiv)
+
+// for(let i = 0; i < NewsDiv.length; i++){
+//     console.log(NewsDiv[i], i)
+//     NewsDiv.innerText = `hello ${i}`
+// }
+
+// for(node of NewsDiv){
+//     node.innerHTML = "<div>Hello</div>"
+// }
+    // NewsDiv.forEach(node => {
+        // node.innerHTML = "<div>Hello</div>"
+    // })
+
 
     const news1 = document.getElementById('new1')
     const news2 = document.getElementById('news2')
@@ -50,7 +65,7 @@ window.addEventListener('DOMContentLoaded', () => {
         tickerval = tickervalue.value;
         const historyData = await fetchingPolydata();
         const dataobj = await graphData();
-        const news = await fetchingPolydataNews();
+        const newsData = await fetchingPolydataNews();
         
         fiftyTwoWeekHli.innerText = `The 52 week high of ${tickerval} is ${historyData.fiftyTwoWeekHigh}`
         fiftyTwoWeekli.innerText = `The 52 week low of ${tickerval} is ${historyData.fiftyTwoWeekLow}`
@@ -60,19 +75,16 @@ window.addEventListener('DOMContentLoaded', () => {
         rangeli.innerText = `the current trading range of ${tickerval} is ${historyData.tradingRange}`
         percentChangeli.innerText = `The percent change previous days open to todays open is ${historyData.percentChange}`
 
+        console.log(newsData)
 
-        news1.innerText = `${news.results[0].title},${news.results[0].article_url},${news.results[0].author},${news.results[0].description}`
-        news2.innerText = `${news.results[1].title},${news.results[1].article_url},${news.results[1].author},${news.results[1].description}`
-        news3.innerText = `${news.results[2].title},${news.results[2].article_url},${news.results[2].author},${news.results[2].description}`
-        news4.innerText = `${news.results[3].title},${news.results[3].article_url},${news.results[3].author},${news.results[3].description}`
-        news5.innerText = `${news.results[4].title},${news.results[4].article_url},${news.results[4].author},${news.results[4].description}`
-        news6.innerText = `${news.results[5].title},${news.results[5].article_url},${news.results[5].author},${news.results[5].description}`
+        let counter = 0
 
-
-
-
-
-
+        for(node of NewsDiv){
+            node.innerHTML = `<h6>${newsData.tittle[counter]} by ${newsData.author[counter]}</h6>
+            <p>${newsData.description[counter]}</p>`
+            counter++; 
+        }
+        
         getGraph(dataobj);
     })
 
@@ -88,11 +100,12 @@ window.addEventListener('DOMContentLoaded', () => {
             header: true,
             skipEmptyLines: true
         })
-        for (let i = 0; i < csvData.data.length; i++) {
-            priceData.push(csvData.data[i].open)
-        }
+        // for (let i = 0; i < csvData.data.length; i++) {
+        //     priceData.push(csvData.data[i].open)
+        // }
         for (let i = csvData.data.length - 1; 0 <= i; i--) {
             dateData.push(csvData.data[i].timestamp)
+            priceData.push(csvData.data[i].open)
         }
         return { priceData, dateData }
     }
@@ -113,7 +126,7 @@ window.addEventListener('DOMContentLoaded', () => {
             stockChart.data.datasets[0].data = [...data.priceData]
             stockChart.data.datasets[0].labels = [...data.dateData]
             stockChart.data.datasets[0].label = tickerval
-            console.log(stockChart.data)
+            // console.log(stockChart.data)
             stockChart.update();
             return;
         } 
@@ -172,9 +185,27 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     async function fetchingPolydataNews() {
+        const tittle = [];
+        const description = [];
+        const urlToArtical = [];
+        const author = [];
         const data = await fetch(`${poloyBaseURL}v2/reference/news?ticker=${tickerval}&order=asc&limit=6&sort=published_utc&apiKey=${shevApiKeyForPolygon}`)
         const dataobj = await data.json()
-        return dataobj
+        console.log(dataobj)
+        // news1.innerText = `${news.results[0].title},${news.results[0].article_url},${news.results[0].author},${news.results[0].description}`
+
+        const dataWeNeed = dataobj.results
+        for(let i = 0; i < dataobj.results.length; i++){
+            tittle.push(dataWeNeed[i].title);
+            description.push(dataWeNeed[i].description);
+            urlToArtical.push(dataWeNeed[i].article_url)
+            author.push(dataWeNeed[i].author)
+
+        }
+
+// console.log(tittle)
+        // console.log(tittle,description,urlToArtical,author)
+        return {tittle, description, urlToArtical, author}
     }
 
 
@@ -205,7 +236,7 @@ window.addEventListener('DOMContentLoaded', () => {
             livePriceSocket.send(JSON.stringify({
                 "action": "subscribe",
                 "params": {
-                    "symbols": `${tickerval}`
+                    "symbols": `QQQ`
                 }
             }))
         }
@@ -217,8 +248,8 @@ window.addEventListener('DOMContentLoaded', () => {
             // const jsondata = data.json()
             // console.log(jsondata)
             // console.log(data.json())
-            // console.log(e[""])
-            // alert(`[message] Data received from server: ${e.data}`);
+            console.log(e)
+            alert(`[message] Data received from server: ${e.data}`);
             // const data = await e.data.json()
             
             // console.log(data)
