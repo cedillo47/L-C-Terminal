@@ -109,7 +109,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const data = input
 
         if(stockChart){
-            console.log(data)
+            // console.log(data)
             stockChart.data.datasets[0].data = [...data.priceData]
             stockChart.data.datasets[0].labels = [...data.dateData]
             stockChart.data.datasets[0].label = tickerval
@@ -143,7 +143,7 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        console.log("hi")
+        // console.log("hi")
 
         // stockChart.update()
 
@@ -181,9 +181,54 @@ window.addEventListener('DOMContentLoaded', () => {
 /// trying to implaments live stockprice feature; 
 
     const callingLivePrice = async() => {
-        const response = await fetch(`wss://ws.twelvedata.com/v1/quotes/price?apikey=${LeosapiKeyforTweleveData}`)
-        const data = await response.json()
-        console.log(data)
+
+        const livePriceSocket = new WebSocket(`wss://ws.twelvedata.com/v1/quotes/price?apikey=${LeosapiKeyforTweleveData}`)
+
+        // livePriceSocket.addEventListener("open", e => {
+            // livePriceSocket.send(JSON.stringify({
+
+            //     "action": "subscribe",
+
+            //     "params": {
+            //         "symbols": `${tickerval}`
+            //     }
+
+
+            // }))
+        // })
+
+
+
+        livePriceSocket.onopen = function(e){
+            // alert("[open] Connection established");
+            // alert("Sending to server");
+            livePriceSocket.send(JSON.stringify({
+                "action": "subscribe",
+                "params": {
+                    "symbols": `${tickerval}`
+                }
+            }))
+        }
+
+        livePriceSocket.onmessage = (e) => {
+            //you would just do e[what you want]
+            // console.log(price.timestamp)
+            // const data = price; 
+            // const jsondata = data.json()
+            // console.log(jsondata)
+            // console.log(data.json())
+            // console.log(e[""])
+            // alert(`[message] Data received from server: ${e.data}`);
+            // const data = await e.data.json()
+            
+            // console.log(data)
+            // console.log
+        }
+
+
+        // const response = await fetch(`wss://ws.twelvedata.com/v1/quotes/price?apikey=${LeosapiKeyforTweleveData}`)
+        // const data = await response.json()
+        // console.log(data)
     }
 
     // callingLivePrice();
