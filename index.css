@@ -6,7 +6,9 @@ h1 {
     text-align:center; font-size:50px; text-transform:uppercase; color:#222; letter-spacing:1px;
     font-family:"Playfair Display", serif; font-weight:400;
   }
-   h1 span {
+
+
+ h1 span {
     margin-top: 5px;
       font-size:15px; color:#444; word-spacing:1px; font-weight:normal; letter-spacing:2px;
       text-transform: uppercase; font-family:"Raleway", sans-serif; font-weight:500;
@@ -29,3 +31,17 @@ h1 {
   #tickerID{
       background-color:grey;
   }
+ .content-sidebar{
+    display: flex;
+    flex: wrap;
+    gap: 1em;
+  }
+.chartbox{
+flex: 1 1 70%;
+}
+#newsDiv{
+flex: 1 1 30%;
+}
+#historicalDiv{
+  
+}
