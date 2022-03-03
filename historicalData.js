@@ -249,7 +249,7 @@ window.addEventListener('DOMContentLoaded', () => {
             // console.log(jsondata)
             // console.log(data.json())
             console.log(e)
-            // alert(`[message] Data received from server: ${e.data}`);
+            alert(`[message] Data received from server: ${e.data}`);
             // const data = await e.data.json()
             
             // console.log(data)
