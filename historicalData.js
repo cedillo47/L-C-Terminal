@@ -1,5 +1,5 @@
 window.addEventListener('DOMContentLoaded', () => {
-    // console.log("hello")
+    
     const ctx = document.getElementById('myChart').getContext('2d');
     const form = document.getElementById("tickerForm");
 
@@ -14,22 +14,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const percentChangeli = document.getElementById("percentChange")
 
     const NewsDiv = document.getElementById("newsDiv").children
-// console.log(NewsDiv)
 
-// for(let i = 0; i < NewsDiv.length; i++){
-//     console.log(NewsDiv[i], i)
-//     NewsDiv.innerText = `hello ${i}`
-// }
-
-// for(node of NewsDiv){
-//     node.innerHTML = "<div>Hello</div>"
-// }
-    // NewsDiv.forEach(node => {
-        // node.innerHTML = "<div>Hello</div>"
-    // })
-
-
-    const news1 = document.getElementById('new1')
+    const news1 = document.getElementById('news1')
     const news2 = document.getElementById('news2')
     const news3 = document.getElementById('news3')
     const news4 = document.getElementById('news4')
@@ -62,6 +48,7 @@ window.addEventListener('DOMContentLoaded', () => {
     //this is where all API are called when the form is interacted with
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
+
         tickerval = tickervalue.value;
         const historyData = await fetchingPolydata();
         const dataobj = await graphData();
@@ -75,8 +62,6 @@ window.addEventListener('DOMContentLoaded', () => {
         rangeli.innerText = `the current trading range of ${tickerval} is ${historyData.tradingRange}`
         percentChangeli.innerText = `The percent change previous days open to todays open is ${historyData.percentChange}`
 
-        console.log(newsData)
-
         let counter = 0
 
         for(node of NewsDiv){
@@ -84,12 +69,28 @@ window.addEventListener('DOMContentLoaded', () => {
             <p>${newsData.description[counter]}</p>`
             counter++; 
         }
+
+        news1.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[0]}`, "_blank");
+        })
+        news2.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[1]}`, "_blank");
+        })
+        news3.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[2]}`, "_blank");
+        })
+        news4.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[3]}`, "_blank");
+        })
+        news5.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[4]}`, "_blank");
+        })
+        news6.addEventListener("click", ()=> {
+            window.open(`${newsData.urlToArtical[5]}`, "_blank");
+        })
         
         getGraph(dataobj);
     })
-
-
-
 
     async function graphData() {
         let dateData = [];
@@ -100,9 +101,6 @@ window.addEventListener('DOMContentLoaded', () => {
             header: true,
             skipEmptyLines: true
         })
-        // for (let i = 0; i < csvData.data.length; i++) {
-        //     priceData.push(csvData.data[i].open)
-        // }
         for (let i = csvData.data.length - 1; 0 <= i; i--) {
             dateData.push(csvData.data[i].timestamp)
             priceData.push(csvData.data[i].open)
@@ -110,27 +108,18 @@ window.addEventListener('DOMContentLoaded', () => {
         return { priceData, dateData }
     }
 
-
-
-
-
     // this function will call graphData to then create a graph that will be shown on the DOM
-
-
 
     async function getGraph(input) {
         const data = input
 
         if(stockChart){
-            // console.log(data)
             stockChart.data.datasets[0].data = [...data.priceData]
             stockChart.data.datasets[0].labels = [...data.dateData]
             stockChart.data.datasets[0].label = tickerval
-            // console.log(stockChart.data)
             stockChart.update();
             return;
         } 
-        
         stockChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -155,11 +144,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             }
         });
-
-        // console.log("hi")
-
-        // stockChart.update()
-
     }
 
 
@@ -191,9 +175,6 @@ window.addEventListener('DOMContentLoaded', () => {
         const author = [];
         const data = await fetch(`${poloyBaseURL}v2/reference/news?ticker=${tickerval}&order=asc&limit=6&sort=published_utc&apiKey=${shevApiKeyForPolygon}`)
         const dataobj = await data.json()
-        console.log(dataobj)
-        // news1.innerText = `${news.results[0].title},${news.results[0].article_url},${news.results[0].author},${news.results[0].description}`
-
         const dataWeNeed = dataobj.results
         for(let i = 0; i < dataobj.results.length; i++){
             tittle.push(dataWeNeed[i].title);
@@ -202,37 +183,17 @@ window.addEventListener('DOMContentLoaded', () => {
             author.push(dataWeNeed[i].author)
 
         }
-
-// console.log(tittle)
-        // console.log(tittle,description,urlToArtical,author)
         return {tittle, description, urlToArtical, author}
     }
 
 
 /// trying to implaments live stockprice feature; 
+// only seems to work with QQQ
 
     const callingLivePrice = async() => {
-
         const livePriceSocket = new WebSocket(`wss://ws.twelvedata.com/v1/quotes/price?apikey=${LeosapiKeyforTweleveData}`)
 
-        // livePriceSocket.addEventListener("open", e => {
-            // livePriceSocket.send(JSON.stringify({
-
-            //     "action": "subscribe",
-
-            //     "params": {
-            //         "symbols": `${tickerval}`
-            //     }
-
-
-            // }))
-        // })
-
-
-
         livePriceSocket.onopen = function(e){
-            // alert("[open] Connection established");
-            // alert("Sending to server");
             livePriceSocket.send(JSON.stringify({
                 "action": "subscribe",
                 "params": {
@@ -242,28 +203,11 @@ window.addEventListener('DOMContentLoaded', () => {
         }
 
         livePriceSocket.onmessage = (e) => {
-            //you would just do e[what you want]
-            // console.log(price.timestamp)
-            // const data = price; 
-            // const jsondata = data.json()
-            // console.log(jsondata)
-            // console.log(data.json())
             console.log(e)
             alert(`[message] Data received from server: ${e.data}`);
-            // const data = await e.data.json()
-            
-            // console.log(data)
-            // console.log
         }
-
-
-        // const response = await fetch(`wss://ws.twelvedata.com/v1/quotes/price?apikey=${LeosapiKeyforTweleveData}`)
-        // const data = await response.json()
-        // console.log(data)
     }
-
     // callingLivePrice();
-
 })
 
 
