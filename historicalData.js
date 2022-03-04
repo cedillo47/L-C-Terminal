@@ -25,7 +25,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const news5 = document.getElementById('news5')
     const news6 = document.getElementById('news6')
 
-
+    const hisHeader = document.getElementById('hisH')
 
 
 
@@ -61,7 +61,7 @@ window.addEventListener('DOMContentLoaded', () => {
         const newsData = await fetchingPolydataNews();
 
         console.log(historyData)
-        
+        hisHeader.innerText = `Quick facts`
         fiftyTwoWeekHli.innerText = `The 52 week high of ${tickerval} is ${historyData.fiftyTwoWeekHigh}`
         fiftyTwoWeekli.innerText = `The 52 week low of ${tickerval} is ${historyData.fiftyTwoWeekLow}`
         avgVolli.innerText = `The avrage volume of ${tickerval} is ${historyData.avgVolume}`
@@ -79,6 +79,8 @@ window.addEventListener('DOMContentLoaded', () => {
             <p>${newsData.description[counter]}</p>`
             counter++; 
         }
+
+        
 
         news1.addEventListener("click", ()=> {
             window.open(`${newsData.urlToArtical[0]}`, "_blank");
