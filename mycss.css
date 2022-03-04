@@ -68,12 +68,14 @@ flex: 1 1 70%;
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+    font-size: medium;
 }
 
 #newsDiv{
     display: flex;
     flex-direction: column;
     gap: 2.3em;
+    font-size: medium;
 /* display: flex; */
 /* flex: 1 1 30%; */
 }
@@ -88,6 +90,19 @@ flex: 1 1 70%;
     display: flex;
     justify-content: center;
 }
+
+/* #wideScreen{ */
+    /* margin-left: 10px; */
+    /* margin-right: 10px; */
+/* } */
+
+
+@media only screen and (max-width: 768px) {
+#wideScreen{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+  }
 
 @media only screen and (min-width: 768px) {
     body{

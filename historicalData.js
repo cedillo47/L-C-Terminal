@@ -49,11 +49,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     function turnBoxBack(box){
-        box.style.backgroundColor = "#ccc"
+        box.style.color = "black"
+        box.style.textDecoration = "none";
+        
       }
 
     function makeBoxBorderRed(box){
-        box.style.backgroundColor = "#888";
+        box.style.color = "blue";
+        box.style.cursor = "pointer";
+        box.style.textDecoration = "underline";
     }
 
 
@@ -73,14 +77,16 @@ window.addEventListener('DOMContentLoaded', () => {
         const newsData = await fetchingPolydataNews();
 
         console.log(historyData)
-        hisHeader.innerText = `Quick facts`
+        hisHeader.innerText = `Quick Facts`
         fiftyTwoWeekHli.innerText = `The 52 week high of ${tickerval} is ${historyData.fiftyTwoWeekHigh}`
         fiftyTwoWeekli.innerText = `The 52 week low of ${tickerval} is ${historyData.fiftyTwoWeekLow}`
-        avgVolli.innerText = `The avrage volume of ${tickerval} is ${historyData.avgVolume}`
+        avgVolli.innerText = `The average volume of ${tickerval} is ${historyData.avgVolume}`
         openli.innerText = `The opening price of ${tickerval} is ${historyData.openPrice}`
         precloli.innerText = `${tickerval} previous close was ${historyData.preClose}`
         rangeli.innerText = `the current trading range of ${tickerval} is ${historyData.tradingRange}`
         percentChangeli.innerText = `The percent change previous days open to todays open is ${historyData.percentChange}`
+
+
 
         newsHeader.innerText = "News"
 
@@ -162,7 +168,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
                     ],
-                    borderWidth: 1
+                    borderWidth: 1,
                 }]
             },
             options: {
@@ -170,12 +176,22 @@ window.addEventListener('DOMContentLoaded', () => {
                     y: {
                         beginAtZero: true
                     }
+
                 }
             }
         });
     }
 
-
+    // x: {
+    //     ticks: {
+    //       color: "red"
+    //     }
+    //   },
+    //   y: {
+    //     ticks: {
+    //       color: "green"
+    //     }
+    // //   }
 
 
     // this fucntion will retreve all of the historical data we need ATM
