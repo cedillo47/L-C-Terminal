@@ -9,6 +9,7 @@
     <title>Project-6: S & C Terminal</title>
     <!-- <meta name="description" content="Our first page"> -->
     <!-- <meta name="keywords" content="html tutorial template"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.1/papaparse.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script src="historicalData.js"></script>
@@ -19,7 +20,7 @@
 
 <body>
     <header>
-        <h1>S&C Terminal<span>#1 Stock Tracking Resouce</span></h1>
+        <h1>L&C Terminal<span>#1 Stock Tracking Resource</span></h1>
     </header>
 
 
@@ -32,22 +33,26 @@
     </div>
 
 
-    <p id="StartMessage">Take control of your world with S & C Terminal (Data to be used for educational puposes only)
+    <p id="StartMessage">Take control of your world with S & C Terminal (Data to be used for educational purposes only!)
     </p>
 
-    <div class="content-sidebar">
+    <div id="wideScreen">
+
             <div class="chartbox">
+                <h2 id="secNameAndPrice"></h2>
                 <canvas id="myChart"></canvas>
             </div>
 
 
+ <div id="sideData">           
+    <div class="content-sidebar">
 
     <div id="historicalDiv">
         <h2 id="hisH"></h2>
         <p id="fiftyTwoWeekHigh"></p>
         <p id="fiftyTwoWeekLow"></p>
         <p id="avgVolume"></p>
-        <p id="openPrice"></p>
+        <!-- <p id="openPrice"></p> -->
         <p id="preClose"></p>
         <p id="tradingRange"></p>
         <p id="percentChange"></p>
@@ -66,6 +71,10 @@
             <div class="newsBlock" id="news5"></div>
             <div class="newsBlock" id="news6"></div>
         </div>
+    </div>
+
+    </div>
+
     </div>
     <!-- Content goes here. -->
 

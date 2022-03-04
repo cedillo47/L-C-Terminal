@@ -1,7 +1,10 @@
 body{
     background-color:#ccc;
     min-width: 440px;
-    /* margi; */
+    max-width: fit-content;
+    /* font: 1em ; */
+    font-size: medium;
+    margin: auto;
 }
 * { margin: 0; padding: 0; }
 
@@ -22,7 +25,7 @@ h1 {
  h1 span {
     margin-top: 5px;
       font-size:15px; color:#444; word-spacing:1px; font-weight:normal; letter-spacing:2px;
-      text-transform: uppercase; font-family:"Raleway", sans-serif; font-weight:500;
+      text-transform: uppercase; font-family:Times New Roman, sans-serif; font-weight:500;
   
       display: grid;
       grid-template-columns: 1fr max-content 1fr;
@@ -43,6 +46,7 @@ h1 {
   .ticker {
       display: flex;
       justify-content: center;
+      margin-bottom: 0.5em;
   }
 
   .newsBlock {
@@ -56,17 +60,28 @@ h1 {
     display: flex;
     flex-direction:column;
     gap: 1em;
+    margin-bottom: 0.7em;
   }
+
 .chartbox{
-flex: 1 1 70%;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 70%;
 }
 
 
+#historicalDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    font-size: medium;
+}
 
 #newsDiv{
     display: flex;
     flex-direction: column;
     gap: 2.3em;
+    font-size: medium;
 /* display: flex; */
 /* flex: 1 1 30%; */
 }
@@ -76,6 +91,58 @@ flex: 1 1 70%;
     flex-direction: column;
     gap: 1em;
 }
+
+#StartMessage{
+    display: flex;
+    justify-content: center;
+}
+
+/* #wideScreen{ */
+    /* margin-left: 10px; */
+    /* margin-right: 10px; */
+/* } */
+
+
+@media only screen and (max-width: 768px) {
+#wideScreen{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#secNameAndPrice {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+  }
+
+@media only screen and (min-width: 768px) {
+
+    .content-sidebar{
+        display: flex;
+        flex-direction:row;
+        /* gap: 1em; */
+        /* margin-bottom: 0.7em; */
+      }
+      .chartbox {
+        width: 900px;
+        display: flex;
+        align-self: center;
+    }
+
+#wideScreen{
+display: flex;
+grid-column-gap: 20px;
+width: 1501px;
+margin: auto;
+}
+
+#newsDiv{
+    gap: 1.5em;
+}
+}
+
 /* need to set media query at 770 */
 
 /* This can be used as the display on wide mode  */
@@ -89,4 +156,4 @@ flex: 1 1 70%;
       grid-template-rows: 27px 0;
       grid-gap: 20px;
       align-items: center;
-  } */
+  } 

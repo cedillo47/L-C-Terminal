@@ -18,6 +18,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const newsHeader = document.getElementById("newsHeader")
 
+
+
+    const security = document.getElementById("secNameAndPrice")
+
     const news1 = document.getElementById('news1')
     const news2 = document.getElementById('news2')
     const news3 = document.getElementById('news3')
@@ -47,11 +51,28 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const message = document.getElementById("StartMessage")
 
+
+    function turnBoxBack(box){
+        box.style.color = "black"
+        box.style.textDecoration = "none";
+        
+      }
+
+    function makeBoxBorderRed(box){
+        box.style.color = "blue";
+        box.style.cursor = "pointer";
+        box.style.textDecoration = "underline";
+    }
+
+
+
+    let minPrice;
+    let maxPrice;
     // this all the functions for get graph data
     //this is where all API are called when the form is interacted with
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-
+     
         message.style.display = "none";
 
         
@@ -61,27 +82,34 @@ window.addEventListener('DOMContentLoaded', () => {
         const newsData = await fetchingPolydataNews();
 
         console.log(historyData)
-        hisHeader.innerText = `Quick facts`
-        fiftyTwoWeekHli.innerText = `The 52 week high of ${tickerval} is ${historyData.fiftyTwoWeekHigh}`
-        fiftyTwoWeekli.innerText = `The 52 week low of ${tickerval} is ${historyData.fiftyTwoWeekLow}`
-        avgVolli.innerText = `The avrage volume of ${tickerval} is ${historyData.avgVolume}`
-        openli.innerText = `The opening price of ${tickerval} is ${historyData.openPrice}`
-        precloli.innerText = `${tickerval} previous close was ${historyData.preClose}`
-        rangeli.innerText = `the current trading range of ${tickerval} is ${historyData.tradingRange}`
-        percentChangeli.innerText = `The percent change previous days open to todays open is ${historyData.percentChange}`
+        hisHeader.innerText = `Quick Facts`
+        fiftyTwoWeekHli.innerText = `The 52 week high of ${tickerval} is ${turnNumtoTenthplace(historyData.fiftyTwoWeekHigh)}`
+        fiftyTwoWeekli.innerText = `The 52 week low of ${tickerval} is ${turnNumtoTenthplace(historyData.fiftyTwoWeekLow)}`
+        avgVolli.innerText = `The average volume of ${tickerval} is ${turnNumtoTenthplace(historyData.avgVolume)}`
+        // openli.innerText = `The opening price of ${tickerval} is ${historyData.openPrice}`
+        precloli.innerText = `${tickerval} previous close was ${turnNumtoTenthplace(historyData.preClose)}`
+        // rangeli.innerText = `the current trading range of ${tickerval} is ${minPrice.toString()} - ${maxPrice.toString()}`
+        percentChangeli.innerText = `The percent change from yesterday's close to todays open is ${turnNumtoTenthplace(historyData.percentChange)} percent`
+
+        security.innerText = `${historyData.name} opened today at ${turnNumtoTenthplace(historyData.openPrice)}`
 
         newsHeader.innerText = "News"
 
         let counter = 0
 
         for(node of NewsDiv){
-            node.innerHTML = `<h6>${newsData.tittle[counter]} by ${newsData.author[counter]}</h6>
+            node.innerHTML = `<h5>${newsData.tittle[counter]} by ${newsData.author[counter]}</h5>
             <p>${newsData.description[counter]}</p>`
             counter++; 
         }
 
-        
 
+        $("#news1").hover(()=>{ makeBoxBorderRed(news1)},()=> {turnBoxBack(news1)});
+        $("#news2").hover(()=>{ makeBoxBorderRed(news2)},()=> {turnBoxBack(news2)});
+        $("#news3").hover(()=>{ makeBoxBorderRed(news3)},()=> {turnBoxBack(news3)});
+        $("#news4").hover(()=>{ makeBoxBorderRed(news4)},()=> {turnBoxBack(news4)});
+        $("#news5").hover(()=>{ makeBoxBorderRed(news5)},()=> {turnBoxBack(news5)});
+        $("#news6").hover(()=>{ makeBoxBorderRed(news6)},()=> {turnBoxBack(news6)});
         news1.addEventListener("click", ()=> {
             window.open(`${newsData.urlToArtical[0]}`, "_blank");
         })
@@ -102,6 +130,7 @@ window.addEventListener('DOMContentLoaded', () => {
         })
         
         getGraph(dataobj);
+        rangeli.innerText = `The current trading range of ${tickerval} is from a low of ${minPrice.toString()} to high of ${maxPrice.toString()}`
     })
 
     async function graphData() {
@@ -124,7 +153,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     async function getGraph(input) {
         const data = input
+        minPrice = Math.min(...data.priceData)
+        maxPrice = Math.max(...data.priceData)
+        // console.log(Math.max(...data.priceData), Math.min(...data.priceData))
 
+        
         if(stockChart){
             stockChart.data.datasets[0].data = [...data.priceData]
             stockChart.data.datasets[0].labels = [...data.dateData]
@@ -145,7 +178,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     borderColor: [
                         'rgba(255, 99, 132, 1)',
                     ],
-                    borderWidth: 1
+                    borderWidth: 1,
                 }]
             },
             options: {
@@ -153,12 +186,22 @@ window.addEventListener('DOMContentLoaded', () => {
                     y: {
                         beginAtZero: true
                     }
+
                 }
             }
         });
     }
 
-
+    // x: {
+    //     ticks: {
+    //       color: "red"
+    //     }
+    //   },
+    //   y: {
+    //     ticks: {
+    //       color: "green"
+    //     }
+    // //   }
 
 
     // this fucntion will retreve all of the historical data we need ATM
@@ -166,16 +209,25 @@ window.addEventListener('DOMContentLoaded', () => {
         const historicalDataURLFrom12Data = `${tweleveDataBaseURL}/quote?symbol=${tickerval}&apikey=${LeosapiKeyforTweleveData}`
         const data = await fetch(`${historicalDataURLFrom12Data}`)
         const dataobj = await data.json()
+        // console.log(dataobj)
         const fiftyTwoWeekHigh = dataobj.fifty_two_week.high
+        // const num = fiftyTwoWeekHigh.toString()
+        // console.log(parseFloat(num))
+
+        // const split = num.split("").slice(0, num.length - 3).join("").toString()
+        // console.log(split)
         const fiftyTwoWeekLow = dataobj.fifty_two_week.low
         const avgVolume = dataobj.average_volume
         const openPrice = dataobj.open
         const preClose = dataobj.previous_close
         const tradingRange = dataobj.fifty_two_week.range
         const percentChange = dataobj.percent_change
-        return { fiftyTwoWeekHigh, fiftyTwoWeekLow, avgVolume, openPrice, preClose, tradingRange, percentChange }
+        const name = dataobj.name
+        return { fiftyTwoWeekHigh, fiftyTwoWeekLow, avgVolume, openPrice, preClose, tradingRange, percentChange, name }
     };
-
+function turnNumtoTenthplace(num){
+    return  num.toString().split("").slice(0, num.length - 3).join("").toString()
+}
 
 /// this is where the news fucntion will live
 
