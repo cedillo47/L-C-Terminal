@@ -1,7 +1,10 @@
 body{
     background-color:#ccc;
     min-width: 440px;
-    font: 1em ;
+    max-width: fit-content;
+    /* font: 1em ; */
+    font-size: medium;
+    margin: auto;
 }
 * { margin: 0; padding: 0; }
 
@@ -22,7 +25,7 @@ h1 {
  h1 span {
     margin-top: 5px;
       font-size:15px; color:#444; word-spacing:1px; font-weight:normal; letter-spacing:2px;
-      text-transform: uppercase; font-family:"Raleway", sans-serif; font-weight:500;
+      text-transform: uppercase; font-family:Times New Roman, sans-serif; font-weight:500;
   
       display: grid;
       grid-template-columns: 1fr max-content 1fr;
@@ -105,14 +108,16 @@ h1 {
     margin-left: 10px;
     margin-right: 10px;
 }
+
+#secNameAndPrice {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
   }
 
 @media only screen and (min-width: 768px) {
-    body{
-        /* background-color: white;  */
-        /* display: flex; */
-        /* flex-direction: column; */
-    } 
 
     .content-sidebar{
         display: flex;
