@@ -59,6 +59,7 @@ h1 {
     gap: 1em;
     margin-bottom: 0.7em;
   }
+
 .chartbox{
 flex: 1 1 70%;
 }
@@ -83,10 +84,14 @@ flex: 1 1 70%;
     gap: 1em;
 }
 
+#StartMessage{
+    display: flex;
+    justify-content: center;
+}
 
 @media only screen and (min-width: 768px) {
     body{
-        background-color: white; 
+        /* background-color: white;  */
         /* display: flex; */
         /* flex-direction: column; */
     } 
@@ -97,7 +102,24 @@ flex: 1 1 70%;
         /* gap: 1em; */
         /* margin-bottom: 0.7em; */
       }
+      .chartbox {
+        width: 900px;
+        display: flex;
+        align-self: center;
+    }
+
+#wideScreen{
+display: flex;
+grid-column-gap: 20px;
+width: 1501px;
+margin: auto;
 }
+
+#newsDiv{
+    gap: 1.5em;
+}
+}
+
 /* need to set media query at 770 */
 
 /* This can be used as the display on wide mode  */
@@ -111,4 +133,4 @@ flex: 1 1 70%;
       grid-template-rows: 27px 0;
       grid-gap: 20px;
       align-items: center;
-  } */
+  } 

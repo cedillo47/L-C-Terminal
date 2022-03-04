@@ -87,7 +87,7 @@ window.addEventListener('DOMContentLoaded', () => {
         let counter = 0
 
         for(node of NewsDiv){
-            node.innerHTML = `<h6>${newsData.tittle[counter]} by ${newsData.author[counter]}</h6>
+            node.innerHTML = `<h5>${newsData.tittle[counter]} by ${newsData.author[counter]}</h5>
             <p>${newsData.description[counter]}</p>`
             counter++; 
         }
