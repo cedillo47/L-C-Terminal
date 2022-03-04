@@ -47,6 +47,18 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const message = document.getElementById("StartMessage")
 
+
+    function turnBoxBack(box){
+        box.style.backgroundColor = "#ccc"
+      }
+
+    function makeBoxBorderRed(box){
+        box.style.backgroundColor = "#888";
+    }
+
+
+
+
     // this all the functions for get graph data
     //this is where all API are called when the form is interacted with
     form.addEventListener("submit", async (e) => {
@@ -80,8 +92,13 @@ window.addEventListener('DOMContentLoaded', () => {
             counter++; 
         }
 
-        
 
+        $("#news1").hover(()=>{ makeBoxBorderRed(news1)},()=> {turnBoxBack(news1)});
+        $("#news2").hover(()=>{ makeBoxBorderRed(news2)},()=> {turnBoxBack(news2)});
+        $("#news3").hover(()=>{ makeBoxBorderRed(news3)},()=> {turnBoxBack(news3)});
+        $("#news4").hover(()=>{ makeBoxBorderRed(news4)},()=> {turnBoxBack(news4)});
+        $("#news5").hover(()=>{ makeBoxBorderRed(news5)},()=> {turnBoxBack(news5)});
+        $("#news6").hover(()=>{ makeBoxBorderRed(news6)},()=> {turnBoxBack(news6)});
         news1.addEventListener("click", ()=> {
             window.open(`${newsData.urlToArtical[0]}`, "_blank");
         })
