@@ -70,7 +70,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 
-
+        console.log(data) 
         getGraph(dataobj);
     })
 
@@ -92,15 +92,17 @@ window.addEventListener('DOMContentLoaded', () => {
         for (let i = csvData.data.length - 1; 0 <= i; i--) {
             dateData.push(csvData.data[i].timestamp)
         }
+
+        console.log({priceData, dateData})
         return { priceData, dateData }
     }
 
 
 
 
-
     // this function will call graphData to then create a graph that will be shown on the DOM
     async function getGraph(input) {
+        console.log(data)
         const data = input
         const myChart = new Chart(ctx, {
             type: 'line',
